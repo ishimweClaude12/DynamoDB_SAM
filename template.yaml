@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  DynamoDB SAM lab. Orders table with a partition key, named non-key
+  attributes, two Global Secondary Indexes, on-demand billing and the
+  Standard-IA table class. Deployed per environment (dev / prod).
+
+# ---------------------------------------------------------------------------
+# Item schema (DynamoDB is schemaless; this documents the agreed shape)
+#
+#   OrderId      (S)  Partition key of the table
+#   CustomerId   (S)  Non-key attribute, partition key of CustomerOrdersIndex
+#   OrderStatus  (S)  Non-key attribute, partition key of OrderStatusIndex
+#   OrderDate    (S)  Non-key attribute, ISO 8601 date, sort key of both GSIs
+#   TotalAmount  (N)  Non-key attribute, free (not indexed)
+#
+# Only attributes used in a key schema (table or index) may appear in
+# AttributeDefinitions. TotalAmount is therefore not declared below, but
+# every item inserted carries it.
+# ---------------------------------------------------------------------------
+
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+    Description: Target environment. Drives the table name, tags and prod-only safeguards.
+
+Conditions:
+  IsProd: !Equals [!Ref Environment, prod]
+
+Resources:
+  OrdersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "orders-${Environment}"
+
+      # Requirement: On-Demand billing
+      BillingMode: PAY_PER_REQUEST
+
+      # Requirement: not the default (STANDARD) storage class
+      TableClass: STANDARD_INFREQUENT_ACCESS
+
+      AttributeDefinitions:
+        - AttributeName: OrderId
+          AttributeType: S
+        - AttributeName: CustomerId
+          AttributeType: S
+        - AttributeName: OrderStatus
+          AttributeType: S
+        - AttributeName: OrderDate
+          AttributeType: S
+
+      # Primary key: partition key only (sort key is optional in the brief)
+      KeySchema:
+        - AttributeName: OrderId
+          KeyType: HASH
+
+      # Two GSIs, both keyed on non-primary attributes.
+      # No ProvisionedThroughput block: GSIs inherit on-demand from the table.
+      GlobalSecondaryIndexes:
+        - IndexName: CustomerOrdersIndex
+          KeySchema:
+            - AttributeName: CustomerId
+              KeyType: HASH
+            - AttributeName: OrderDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+        - IndexName: OrderStatusIndex
+          KeySchema:
+            - AttributeName: OrderStatus
+              KeyType: HASH
+            - AttributeName: OrderDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+      # Prod-only safeguards. Disable deletion protection before tearing down prod.
+      DeletionProtectionEnabled: !If [IsProd, true, false]
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: !If [IsProd, true, false]
+
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Project
+          Value: dynamodb-sam-lab
+        - Key: ManagedBy
+          Value: aws-sam
+
+Outputs:
+  TableName:
+    Description: DynamoDB table name
+    Value: !Ref OrdersTable
+  TableArn:
+    Description: DynamoDB table ARN
+    Value: !GetAtt OrdersTable.Arn
+  TableClass:
+    Description: Storage class applied to the table
+    Value: STANDARD_INFREQUENT_ACCESS
+  CustomerIndexName:
+    Description: GSI for querying a customer's orders by date
+    Value: CustomerOrdersIndex
+  StatusIndexName:
+    Description: GSI for querying orders by status and date
+    Value: OrderStatusIndex

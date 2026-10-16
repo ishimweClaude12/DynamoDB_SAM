@@ -1,0 +1,37 @@
+[
+  {
+    "OrderId": "ORD-1001",
+    "CustomerId": "CUST-ALICE",
+    "OrderStatus": "PENDING",
+    "OrderDate": "2026-10-01",
+    "TotalAmount": 45000
+  },
+  {
+    "OrderId": "ORD-1002",
+    "CustomerId": "CUST-ALICE",
+    "OrderStatus": "SHIPPED",
+    "OrderDate": "2026-10-05",
+    "TotalAmount": 120000
+  },
+  {
+    "OrderId": "ORD-1003",
+    "CustomerId": "CUST-BRUNO",
+    "OrderStatus": "PENDING",
+    "OrderDate": "2026-10-07",
+    "TotalAmount": 18500
+  },
+  {
+    "OrderId": "ORD-1004",
+    "CustomerId": "CUST-BRUNO",
+    "OrderStatus": "DELIVERED",
+    "OrderDate": "2026-09-28",
+    "TotalAmount": 76000
+  },
+  {
+    "OrderId": "ORD-1005",
+    "CustomerId": "CUST-CHLOE",
+    "OrderStatus": "CANCELLED",
+    "OrderDate": "2026-10-10",
+    "TotalAmount": 9900
+  }
+]
