@@ -1,0 +1,6 @@
+# SAM build output; keep only the pipeline bootstrap config
+.aws-sam/*
+!.aws-sam/pipeline/
+packaged-*.yaml
+samconfig.toml.bak
+.claude/settings.local.json
