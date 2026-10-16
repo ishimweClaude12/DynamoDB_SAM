@@ -29,9 +29,9 @@ env:
   # Values below come from: sam pipeline bootstrap --stage prod
   # (see .aws-sam/pipeline/pipelineconfig.toml or the stack
   #  aws-sam-cli-managed-prod-pipeline-resources outputs)
-  PIPELINE_EXECUTION_ROLE: arn:aws:iam::605134436600:role/arn:aws:iam::605134436600:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-PUYY6pcjXp0L
-  CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::605134436600:role/arn:aws:iam::605134436600:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionRo-wYyTbmGhSn4p
-  ARTIFACTS_BUCKET: arn:aws:s3:::aws-sam-cli-managed-dev-pipeline-r-artifactsbucket-95nc2qxkidxk
+  PIPELINE_EXECUTION_ROLE: arn:aws:iam::605134436600:role/aws-sam-cli-managed-prod-pipe-PipelineExecutionRole-pK8dcH2sB64r
+  CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::605134436600:role/aws-sam-cli-managed-prod--CloudFormationExecutionRo-n72YDXz38Rlv
+  ARTIFACTS_BUCKET: aws-sam-cli-managed-prod-pipeline--artifactsbucket-78dfkwaadc4c
 
 jobs:
   build-and-package:
