@@ -58,7 +58,7 @@ Access patterns this supports: get an order by ID, list a customer's orders by d
 
 ## Setup
 
-Prerequisites: AWS CLI v2 configured with an admin profile, AWS SAM CLI, Git, and an empty GitHub repository named `dynamodb-sam-lab`.
+Prerequisites: AWS CLI v2 configured with an admin profile, AWS SAM CLI, Git, and an empty GitHub repository named `DynamoDB_SAM`.
 
 ### 1. Initial commit on main
 
@@ -68,7 +68,7 @@ Push only this README and `.gitignore` to `main` first, so the prod pipeline doe
 git init && git branch -M main
 git add README.md .gitignore
 git commit -m "chore: initial commit"
-git remote add origin git@github.com:<github-user>/dynamodb-sam-lab.git
+git remote add origin git@github.com:ishimweClaude12/DynamoDB_SAM.git
 git push -u origin main
 git checkout -b develop
 ```
@@ -82,11 +82,12 @@ sam pipeline bootstrap \
   --stage dev \
   --region eu-north-1 \
   --permissions-provider oidc \
+  --cicd-provider github-actions \
   --oidc-provider github-actions \
   --oidc-provider-url https://token.actions.githubusercontent.com \
   --oidc-client-id sts.amazonaws.com \
-  --github-org <github-user> \
-  --github-repo dynamodb-sam-lab \
+  --github-org ishimweClaude12 \
+  --github-repo DynamoDB_SAM \
   --deployment-branch develop \
   --no-create-image-repository
 ```
@@ -171,7 +172,7 @@ Check configuration on the table overview: capacity mode shows On-demand and tab
 
 ## Troubleshooting
 
-**"Not authorized to perform sts:AssumeRoleWithWebIdentity".** The OIDC trust policy is tied to the branch given at bootstrap. Dev must run from `develop`, prod from `main`. Adding `environment:` to a job also breaks this, because GitHub then sends the environment name in the token instead of the branch. If you want a GitHub Environment with a required reviewer on prod, update the prod role trust policy to accept `repo:<github-user>/dynamodb-sam-lab:environment:production`.
+**"Not authorized to perform sts:AssumeRoleWithWebIdentity".** The OIDC trust policy is tied to the branch given at bootstrap. Dev must run from `develop`, prod from `main`. Adding `environment:` to a job also breaks this, because GitHub then sends the environment name in the token instead of the branch. If you want a GitHub Environment with a required reviewer on prod, update the prod role trust policy to accept `repo:ishimweClaude12/DynamoDB_SAM:environment:production`.
 
 **Stack stuck in ROLLBACK_COMPLETE.** Delete it (`sam delete --stack-name dynamodb-lab-dev --region eu-north-1`) and push again.
 

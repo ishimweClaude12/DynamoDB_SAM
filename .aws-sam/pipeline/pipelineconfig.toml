@@ -1,0 +1,17 @@
+version = 0.1
+
+[default.pipeline_bootstrap.parameters]
+oidc_provider_url = "https://token.actions.githubusercontent.com"
+oidc_client_id = "sts.amazonaws.com"
+github_org = "ishimweClaude12"
+github_repo = "DynamoDB_SAM"
+deployment_branch = "develop"
+oidc_provider = "github-actions"
+permissions_provider = "OpenID Connect (OIDC)"
+
+[dev.pipeline_bootstrap.parameters]
+pipeline_execution_role = "arn:aws:iam::605134436600:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-PUYY6pcjXp0L"
+cloudformation_execution_role = "arn:aws:iam::605134436600:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionRo-wYyTbmGhSn4p"
+artifacts_bucket = "aws-sam-cli-managed-dev-pipeline-r-artifactsbucket-95nc2qxkidxk"
+image_repository = ""
+region = "eu-north-1"
