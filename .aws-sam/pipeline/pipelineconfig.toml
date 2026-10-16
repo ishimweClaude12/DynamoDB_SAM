@@ -3,9 +3,9 @@ version = 0.1
 [default.pipeline_bootstrap.parameters]
 oidc_provider_url = "https://token.actions.githubusercontent.com"
 oidc_client_id = "sts.amazonaws.com"
-github_org = "ishimweClaude12"
-github_repo = "DynamoDB_SAM"
-deployment_branch = "develop"
+github_org = "ishimweClaude12@77576560"
+github_repo = "DynamoDB_SAM@1422178740"
+deployment_branch = "main"
 oidc_provider = "github-actions"
 permissions_provider = "OpenID Connect (OIDC)"
 

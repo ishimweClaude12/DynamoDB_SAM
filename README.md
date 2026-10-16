@@ -86,8 +86,8 @@ sam pipeline bootstrap \
   --oidc-provider github-actions \
   --oidc-provider-url https://token.actions.githubusercontent.com \
   --oidc-client-id sts.amazonaws.com \
-  --github-org ishimweClaude12 \
-  --github-repo DynamoDB_SAM \
+  --github-org "ishimweClaude12@77576560" \
+  --github-repo "DynamoDB_SAM@1422178740" \
   --deployment-branch develop \
   --no-create-image-repository
 ```
